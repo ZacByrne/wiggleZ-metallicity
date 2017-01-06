@@ -1,0 +1,7 @@
+List of steps to automise metallicity calc
+
+0. Check python and bash scripts for compatability
+1. covert iraf program into python? Change to referee's functions
+
+2. tie in 2gauss?
+3. starlgiht and program to cut change programs
