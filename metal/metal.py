@@ -71,3 +71,6 @@ for x in range(0,count):
 #end of loop thing   
 summet = summet / count
 summet2 = math.sqrt(summet2/ count - (summet)**2)
+
+print summet
+print summet2
