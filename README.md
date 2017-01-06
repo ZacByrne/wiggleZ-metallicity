@@ -1,2 +1,3 @@
 # wiggleZ-metallicity
-Programs for WiggleZ final data release
+test git hub for program version control
+
