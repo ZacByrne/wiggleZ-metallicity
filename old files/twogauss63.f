@@ -365,8 +365,7 @@ c      PARAMETER (COLMAX=800, RMAX=600, SCREEN=6, ITMAX=6500,
 * setup fractional tolorance
 
       FTOL = 5.0E-7
-      FTOL = 5.0E-5
-c changed ftol to 5.0E-5 from 5.0E-6 zb5 5/2/16
+      FTOL = 5.0E-6
       IF (LNAME(1:5).eq.'Hbeta') FTOL  = 5.0E-5
 
       RANGE = 205.0
@@ -538,8 +537,6 @@ c OIII:  NL=1, NL=2 +OFLAG=1 (fixing separation, FW and EW)
            PAR(1) = 0.8
            PAR(1) = MEAN
            PAR(2) = 10.0
-
-c changed to 200 par 3 for particular spectra zb 5/2/16. returned to initial value.
            PAR(3) = 250.0
            PAR(4) = CENTRE
 	   PAR(5) = 10.0
