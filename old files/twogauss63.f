@@ -98,6 +98,22 @@ c     Summary text output files
      :     '      BIC       R2      AR2    Flux1    FWHM1    Wave1'//
      :     '    Flux2    FWHM2    Wave2    Ratio    NP2'//
      :     '     Chi2      BIC       R2      AR2    dBIC      dAR2'
+     
+      FILNAM=ONAME(1:LNBLNK(ONAME))//'_Hg.txt'
+      OPEN(OUTFIL4, FILE=FILNAM)
+      WRITE(OUTFIL4,'(A)')
+     :     '# Hgamma        NB     Flux  '//
+     :     '  FluxE     FWHM     Wave     Sfact     NP    Chi2 '//
+     :     '      BIC       R2      AR2    Flux1    FWHM1    Wave1'//
+     :     '    Flux2    FWHM2    Wave2    Ratio    NP2'//
+     :     '     Chi2      BIC       R2      AR2    dBIC      dAR2'
+     
+      FILNAM=ONAME(1:LNBLNK(ONAME))//'_summary.txt'
+      OPEN(OUTFIL5, FILE=FILNAM)
+      WRITE(OUTFIL5,'(A)')
+     :     '# Spectrum     4363 flux       4363 error'//
+     :     '  3727 flux     3727 error    4959 flux    4959 error '//
+     :     '      Hb flux     hb error    hg flux     hg error'
 
 c     spectrum (data + components + fit) output files
       FILNAM=ONAME(1:LNBLNK(ONAME))//'_O2.dat'
@@ -267,6 +283,37 @@ C Hbeta = 4861.3 + 4861.3
      :        ,NPARD,CHI2D,BICD,CORR2D,ADCORR2D
      :        ,FIT2,FIT21,FIT22)
          WRITE(OUTFIL3,'(A10,I7,5F9.2,I7,2F9.2,2F9.5,7F9.2
+     :,I7,2F9.3,2F9.5,F8.2,F10.5)')
+     :        TNAME,NBIN
+     :        ,INT1,INT1E,FW1,CEN1,SFACT
+     :        ,NPAR,CHI2,BIC,CORR2,ADCORR2
+     :        ,INT1D,FW1D,CEN1D,INT2D,FW2D,CEN2D,INT2D/INT1D
+     :        ,NPARD,CHI2D,BICD,CORR2D,ADCORR2D
+     :        ,BIC-BICD,ADCORR2D-ADCORR2
+        IF (I.EQ.ISPEC) THEN
+         DO J=1,NBIN
+            WRITE(SPFIL3,'(7F9.4)')
+     :      RBWAV(J),RBDAT(J),RBSIG(J),FIT1(J),FIT21(J),FIT22(J),FIT2(J)
+         END DO
+         END IF
+
+
+
+         CENTRE =4341.0
+         NLINES=1
+         OFLAG=0
+         CALL TWOFIT(TNAME,NUM,WAV,SIG,ERR,BINSIZ,'Hgamma',SFACT
+     :        ,INT1,INT1E,FW1,CEN1,INT2,FW2,CEN2
+     :        ,NPAR,CHI2,BIC,CORR2,ADCORR2
+     :        ,FIT1,FIT21,FIT22)
+         CENTRE =4341.0
+         NLINES=2
+         OFLAG=0
+         CALL TWOFIT(TNAME,NUM,WAV,SIG,ERR,BINSIZ,'Hgamma-2',SFACT
+     :        ,INT1D,INT1DE,FW1D,CEN1D,INT2D,FW2D,CEN2D
+     :        ,NPARD,CHI2D,BICD,CORR2D,ADCORR2D
+     :        ,FIT2,FIT21,FIT22)
+         WRITE(OUTFIL4,'(A10,I7,5F9.2,I7,2F9.2,2F9.5,7F9.2
      :,I7,2F9.3,2F9.5,F8.2,F10.5)')
      :        TNAME,NBIN
      :        ,INT1,INT1E,FW1,CEN1,SFACT
