@@ -1,0 +1,2 @@
+# OII          NB     Flux    FluxE     FWHM     Wave    Sfact     NP    Chi2       BIC       R2      AR2    Flux1    FWHM1    Wave1    Flux2    FWHM2    Wave2    Ratio    NP2     Chi2      BIC       R2      AR2    dBIC      dAR2
+fitmilesm1    221   356.57     9.68   392.66  3727.77     4.01      4   435.17   456.77  0.98762  0.98740   140.89   248.08  3725.98   206.28   250.00  3726.00     1.46      5  103.232  130.223  0.99899  0.99897  326.54   0.01158
