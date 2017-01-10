@@ -113,7 +113,7 @@ c     Summary text output files
       OPEN(OUTFIL5, FILE=FILNAM)
       WRITE(OUTFIL5,'(A)')
      :     '# Spectrum     4363 flux       4363 error'//
-     :     '  3727 flux     3727 error    4959 flux    4959 error '//
+     :     '    3727 flux     3727 error    4959 flux    4959 error '//
      :     '      Hb flux     hb error    hg flux     hg error'
 
 c     spectrum (data + components + fit) output files
@@ -340,7 +340,9 @@ C Hbeta = 4861.3 + 4861.3
          END DO
          END IF
 	 WRITE(OUTFIL5,'(A10,10F9.2)')
-     :        SPECNAME,OWF,OWE,OIIF,OIIE,OIIIF,OIIIE,HBF,HBE,HGF,HGAE
+     :        SPECNAME,OWF
+     :        ,OWE,OIIF,OIIE,OIIIF,OIIIE
+     :        ,HBF,HBE,HGF,HGAE
 
 
          READ(INFILE,'(A)',IOSTAT=IOERR) CHLINE
@@ -351,6 +353,9 @@ C Hbeta = 4861.3 + 4861.3
       CLOSE(OUTFIL1)
       CLOSE(OUTFIL2)
       CLOSE(OUTFIL3)
+      CLOSE(OUTFIL4)
+      CLOSE(OUTFIL5)
+
       CLOSE(SPFIL1)
       CLOSE(SPFIL2)
       CLOSE(SPFIL3)
@@ -1351,3 +1356,4 @@ C      IF(F*FMID.GE.0.) PAUSE 'Root must be bracketed for bisection.'
 c      PAUSE 'too many bisections'
       PRINT *,'too many bisections'
       END
+
