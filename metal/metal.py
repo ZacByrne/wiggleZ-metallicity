@@ -25,11 +25,15 @@ k4363 = 4.1482
 k3728 = 5.1632
 k4959 = 3.5163
 k4861 = 3.6092
+kgamma = 4.17
+
+#calculate reddening value
+
 
 # import mass, sfr, redshift? Or calc?np.random.normal(size = 4)
 
 #Loop stats
-count = 10000
+count = 5000
 
 summet = 0
 summet2 = 0
@@ -41,10 +45,14 @@ summet2 = 0
 for x in range(0,count):
     
     #Uncertainity calculations:
-    oiiiwu = oiiiw + np.random.normal(size = (len(oiiiw))) * oiiiwe
+    
+    while not oiiiwu.all() > 0:
+        oiiiwu = oiiiw + np.random.normal(size = (len(oiiiw))) * oiiiwe
+        
     oiiiu = oiii + np.random.normal(size = (len(oiiiw))) * oiiie
     oiiu = oii + np.random.normal(size = (len(oiiiw))) * oiie
     hbu = hb + np.random.normal(size = (len(oiiiw))) * hbe
+    
     
     # Adjust line fluxes for reddening as per Ly 2016
     oiiiwa = adjustflux(oiiiwu, k4363)
@@ -58,19 +66,21 @@ for x in range(0,count):
     #Calc OII temp as per Andrews and Martini 2013
     oiitemp = 0.7 * oiiitemp + 0.17 * 10000
 
+
     #Calculate OII and OIII metallicity
-    oiimet = np.log10(oiia/hba)+5.961+1.676/oiitemp - 0.4*np.log10(oiitemp)-0.034*oiitemp
-    oiiimet = np.log10(4*oiiia/hba)+6.2+1.251/oiiitemp - 0.55*np.log10(oiitemp)-0.014*oiiitemp
+    oiimet = np.log10(oiia/hba)+5.961+1.676/(oiitemp/10000) - 0.4*np.log10(oiitemp/10000)-0.034*oiitemp/10000
+    oiiimet = np.log10(4*oiiia/hba)+6.2+1.251/(oiiitemp/10000) - 0.55*np.log10(oiitemp/10000)-0.014*oiiitemp/10000
+
 
     #Calculate O+ and O++ metallicity
     metal = np.log10(10**(oiimet-12)+10**(oiiimet-12))+12
-    print metal
     summet += metal
-    summet += metal**2
+    summet2 += metal**2
+
     
 #end of loop thing   
 summet = summet / count
-summet2 = np.sqrt(summet2/ count - (summet)**2)
+summettest = np.sqrt(summet2/ count - (summet)**2)
 
 print summet
-print summet2
+print summettest
