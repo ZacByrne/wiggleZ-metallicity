@@ -17,7 +17,7 @@ def adjustflux(flux, kred):
 #load values
 #import args from system? (Google)
 # import line flux values from file into matrix.. NEED TO SEE OUTPUT FILE... CHANGE TO USECOL()
-col, oiiiw, oiiiwe, oii, oiie, oiii, oiiie, hb, hbe = np.loadtxt(".../data/fluxes.txt", dtype = {'names': ('column name', '4363', '4363 error ', '3728', '3278 error', '4959', '4959 error', 'hbeta', 'hbeta error'), 'formats': ('s4', 'f8','f8','f8','f8','f8','f8','f8','f8')})
+col, oiiiw, oiiiwe, oii, oiie, oiii, oiiie, hb, hbe, hg, hge = np.loadtxt("fluxes.txt", dtype = {'names': ('column name', '4363', '4363 error ', '3728', '3278 error', '4959', '4959 error', 'hbeta', 'hbeta error'), 'formats': ('S4', 'f8','f8','f8','f8','f8','f8','f8','f8')}, skiprows=1)
 
 
 # calculate k values? Or simply import from matlab program?

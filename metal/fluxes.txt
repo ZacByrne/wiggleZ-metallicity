@@ -1,0 +1,3 @@
+# Spectrum     4363 flux     4363 error    3727 flux     3727 error    4959 flux    4959 error     Hb flux     hb error    hg flux     hg error
+fitmilesm1     4.90     1.13   356.57     9.68   200.0     9.68   185.06     2.41    72.50     0.41
+fitmilesm2     5.1      3.45   234.56     1.56   211.9     6.88   185.05     2.32    43.65     0.23
