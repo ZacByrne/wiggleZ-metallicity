@@ -5,11 +5,11 @@ import numpy as np
 import math as math
 
 #constant E(b-v)_gamma. Might later include calculations?
-EBV_gamma = 0.61113184
+#EBV_gamma = 0.61113184
 
 #adjust line flux for reddening as flux * 10^(-0.4*E(b-v)*k(lambda))  as per ly_2016
-def adjustflux(flux, kred):
-	flux = flux * 10**(0.4*EBV_gamma*kred)
+def adjustflux(flux, kred,EBVg):
+	flux = flux * 10**(0.4*EBVg*kred)
 	return flux
 
 
@@ -27,13 +27,13 @@ k4959 = 3.5163
 k4861 = 3.6092
 kgamma = 4.17
 
-#calculate reddening value
-
+#calculate reddening value... BEFORE OR AFTER LOOP?
+EBV = np.log10((hg/hb)/0.468)/(-0.4*(kgamma-k4861))
 
 # import mass, sfr, redshift? Or calc?np.random.normal(size = 4)
 
 #Loop stats
-count = 5000
+count = 50
 
 summet = 0
 summet2 = 0
@@ -55,10 +55,10 @@ for x in range(0,count):
     
     
     # Adjust line fluxes for reddening as per Ly 2016
-    oiiiwa = adjustflux(oiiiwu, k4363)
-    oiia = adjustflux(oiiu, k3728)
-    oiiia = adjustflux(oiiiu, k4959)
-    hba = adjustflux(hbu, k4861)
+    oiiiwa = adjustflux(oiiiwu, k4363, EBV)
+    oiia = adjustflux(oiiu, k3728, EBV)
+    oiiia = adjustflux(oiiiu, k4959, EBV)
+    hba = adjustflux(hbu, k4861, EBV)
 
     # calc OIII temp as per Nichollis et al. 2014 
     oiiitemp = 13205 * (-1*np.log10((oiiiwa / (oiiia*4)))-0.92506)**(-0.98062)
