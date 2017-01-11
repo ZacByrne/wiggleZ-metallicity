@@ -114,7 +114,7 @@ c     Summary text output files
       WRITE(OUTFIL5,'(A)')
      :     '# Spectrum     4363 flux       4363 error'//
      :     '    3727 flux     3727 error    4959 flux    4959 error '//
-     :     '      Hb flux     hb error    hg flux     hg error'
+     :     '      Hb flux     hb error    hg flux    hg error'
 
 c     spectrum (data + components + fit) output files
       FILNAM=ONAME(1:LNBLNK(ONAME))//'_O2.dat'
@@ -288,6 +288,7 @@ C Hbeta = 4861.3 + 4861.3
          OFLAG=0
 	 HBF = INT1
 	 HBE = INT1E
+*	 WRITE(SCREEN, 'A'
          CALL TWOFIT(TNAME,NUM,WAV,SIG,ERR,BINSIZ,'Hbeta-2',SFACT
      :        ,INT1D,INT1DE,FW1D,CEN1D,INT2D,FW2D,CEN2D
      :        ,NPARD,CHI2D,BICD,CORR2D,ADCORR2D
@@ -321,7 +322,7 @@ C Hbeta = 4861.3 + 4861.3
          OFLAG=0
 	 HGF = INT1
 	 HGAE = INT1E
-	 TNAME = SPECNAME
+*	 TNAME = SPECNAME
 *         CALL TWOFIT(TNAME,NUM,WAV,SIG,ERR,BINSIZ,'Hgamma-2',SFACT
 *    :        ,INT1D,INT1DE,FW1D,CEN1D,INT2D,FW2D,CEN2D
 *    :        ,NPARD,CHI2D,BICD,CORR2D,ADCORR2D
@@ -341,9 +342,8 @@ C Hbeta = 4861.3 + 4861.3
          END DO
          END IF
 	 WRITE(OUTFIL5,'(A10,10F9.2)')
-     :        SPECNAME,OWF
-     :        ,OWE,OIIF,OIIE,OIIIF,OIIIE
-     :        ,HBF,HBE,HGF,HGAE
+     :        TNAME,OWF
+     :        ,OWE,OIIF,OIIE,OIIIF,OIIIE,HBF,HBE,HGF,HGAE
 
 
          READ(INFILE,'(A)',IOSTAT=IOERR) CHLINE
