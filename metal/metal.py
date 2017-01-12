@@ -1,8 +1,8 @@
 import numpy as np
 #import os
-#import matplotlib, matplotlib.pyplot as plt
+import matplotlib, matplotlib.pyplot as plt
 #import collections
-import math as math
+#import math as math
 
 #constant E(b-v)_gamma. Might later include calculations?
 #EBV_gamma = 0.61113184
@@ -19,6 +19,7 @@ def adjustflux(flux, kred,EBVg):
 # import line flux values from file into matrix.. NEED TO SEE OUTPUT FILE... CHANGE TO USECOL()
 col, oiiiw, oiiiwe, oii, oiie, oiii, oiiie, hb, hbe, hg, hge = np.loadtxt("fluxes.txt", dtype = {'names': ('column name', '4363', '4363 error ', '3728', '3278 error', '4959', '4959 error', 'hbeta', 'hbeta error', 'hgamma', 'hgamma error'), 'formats': ('S4', 'f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')}, skiprows=1, unpack=True)
 
+col1, avm, avmg, avr = np.loadtxt("averages.txt", dtype = {'names':('column name', 'Av mass', 'Av Mg', 'Av Redshift'), 'formats': ('S4', 'f5', 'f5', 'f5')})
 
 # calculate k values? Or simply import from matlab program?
 k4363 = 4.1482
@@ -27,8 +28,8 @@ k4959 = 3.5163
 k4861 = 3.6092
 kgamma = 4.17
 
-#calculate reddening value... BEFORE OR AFTER LOOP?
-EBV = np.log10((hg/hb)/0.468)/(-0.4*(kgamma-k4861))
+
+
 
 # import mass, sfr, redshift? Or calc?np.random.normal(size = 4)
 
@@ -37,7 +38,8 @@ count = 50
 
 summet = 0
 summet2 = 0
-
+sumsfr = 0
+sumsfr2 = 0 
 #Need to show something else? av e temp? Av oII met?
 
 
@@ -52,8 +54,15 @@ for x in range(0,count):
     oiiiu = oiii + np.random.normal(size = (len(oiiiw))) * oiiie
     oiiu = oii + np.random.normal(size = (len(oiiiw))) * oiie
     hbu = hb + np.random.normal(size = (len(oiiiw))) * hbe
+    hgu = hg + np.random.normal(size = (len(oiiiw))) * hge
     
+    #calculate reddening value
+    EBV = np.log10((hgu/hbu)/0.468)/(-0.4*(kgamma-k4861))
     
+    print EBV    
+    
+
+
     # Adjust line fluxes for reddening as per Ly 2016
     oiiiwa = adjustflux(oiiiwu, k4363, EBV)
     oiia = adjustflux(oiiu, k3728, EBV)
@@ -77,6 +86,20 @@ for x in range(0,count):
     summet += metal
     summet2 += metal**2
 
+    #CHECK CALC WITH MICHAEL FOR SFR
+
+    # Lum Hydrogen beta
+    #LHB = 21.02 * 10**(-8) * 
+    
+    #Lun Hydrogen Alpha from LHB
+    #LHA = LHB * 2.86
+    
+    #sfr from LHA and metallicty func from Ly 2016
+    #sfr = LHA * 10**(-41.34-0.39*(metal-12+3.31)+0.127*(metal-12+3.31)**2 )
+
+    #sumsfr +=sfr
+    #sumsfr2 += sfr**2
+
     
 #end of loop thing   
 summet = summet / count
@@ -84,3 +107,11 @@ summettest = np.sqrt(summet2/ count - (summet)**2)
 
 print summet
 print summettest
+
+#sumsfr = sumsfr/count
+#sumsfr2 = np.sqrt(sumsfr2/count - (sumsfr)**2)
+
+#print sumsfr
+#print sumsfr2
+
+plt.errorbar(avm, summet, yerr = summettest, xerr = sumsfr2, linestyle="None") 
