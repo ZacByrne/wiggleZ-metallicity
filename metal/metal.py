@@ -17,7 +17,7 @@ def adjustflux(flux, kred,EBVg):
 #load values
 #import args from system? (Google)
 # import line flux values from file into matrix.. NEED TO SEE OUTPUT FILE... CHANGE TO USECOL()
-col, oiiiw, oiiiwe, oii, oiie, oiii, oiiie, hb, hbe, hg, hge = np.loadtxt("fluxes.txt", dtype = {'names': ('column name', '4363', '4363 error ', '3728', '3278 error', '4959', '4959 error', 'hbeta', 'hbeta error', 'hgamma', 'hgamma error'), 'formats': ('S4', 'f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')}, skiprows=1, unpack=True)
+col, oiiiw, oiiiwe, oii, oiie, oiii, oiiie, hb, hbe, EW, hg, hge = np.loadtxt("fluxes.txt", dtype = {'names': ('column name', '4363', '4363 error ', '3728', '3278 error', '4959', '4959 error', 'hbeta', 'hbeta error', 'hgamma', 'hgamma error'), 'formats': ('S4', 'f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')}, skiprows=1, unpack=True)
 
 col1, avm, avmg, avr = np.loadtxt("averages.txt", dtype = {'names':('column name', 'Av mass', 'Av Mg', 'Av Redshift'), 'formats': ('S4', 'f5', 'f5', 'f5')})
 
@@ -88,17 +88,24 @@ for x in range(0,count):
 
     #CHECK CALC WITH MICHAEL FOR SFR
 
+    #Continous Spectrum lum in AB system from av g band mag
+    speclum = 10**(-0.4*(avmg-51.595))
+    
+    # change units
+    speclum = (speclum * 3.0*10**(-10)) / (10**(-8) * 4861)**2
+    
+    
     # Lum Hydrogen beta
-    #LHB = 21.02 * 10**(-8) * 
+    LHB = EW * 10**(-8) * speclum
     
     #Lun Hydrogen Alpha from LHB
-    #LHA = LHB * 2.86
+    LHA = LHB * 2.86
     
     #sfr from LHA and metallicty func from Ly 2016
-    #sfr = LHA * 10**(-41.34-0.39*(metal-12+3.31)+0.127*(metal-12+3.31)**2 )
+    sfr = LHA * 10**(-41.34-0.39*(metal-12+3.31)+0.127*(metal-12+3.31)**2 )
 
-    #sumsfr +=sfr
-    #sumsfr2 += sfr**2
+    sumsfr +=sfr
+    sumsfr2 += sfr**2
 
     
 #end of loop thing   
@@ -108,10 +115,10 @@ summettest = np.sqrt(summet2/ count - (summet)**2)
 print summet
 print summettest
 
-#sumsfr = sumsfr/count
-#sumsfr2 = np.sqrt(sumsfr2/count - (sumsfr)**2)
+#umsfr = sumsfr/count
+sumsfr2 = np.sqrt(sumsfr2/count - (sumsfr)**2)
 
-#print sumsfr
-#print sumsfr2
+print sumsfr
+print sumsfr2
 
 plt.errorbar(avm, summet, yerr = summettest, xerr = sumsfr2, linestyle="None") 
