@@ -46,7 +46,7 @@
       REAL INT1D,INT1DE,FW1D,CEN1D,INT2D,FW2D,CEN2D
       REAL CHI2D,BICD,CORR2D,ADCORR2D
       REAL OIIF, OIIE, OIIIF, OIIIE, HBF, HBE, HGF, HGAE, OWF, OWE
-      REAL EW1
+      REAL EW1, EWB
       CHARACTER*40 ONAME, TNAME, FILNAM, SPECNAME
       CHARACTER*100 CHLINE
       COMMON /SPECTRA/RBWAV,RBDAT,RBSIG,NBIN,NLINES,CENTRE,OFLAG
@@ -115,7 +115,7 @@ c     Summary text output files
       WRITE(OUTFIL5,'(A)')
      :     '# Spectrum     4363 flux       4363 error'//
      :     '    3727 flux     3727 error    4959 flux    4959 error '//
-     :     '      Hb flux     hb error    hg flux    hg error'
+     :     '      Hb flux     hb error   EWhb   hg flux    hg error'
 
 c     spectrum (data + components + fit) output files
       FILNAM=ONAME(1:LNBLNK(ONAME))//'_O2.dat'
@@ -343,9 +343,10 @@ C Hbeta = 4861.3 + 4861.3
      :      RBWAV(J),RBDAT(J),RBSIG(J),FIT1(J),FIT21(J),FIT22(J),FIT2(J)
          END DO
          END IF
-	 WRITE(OUTFIL5,'(A10,10F9.2)')
+	 WRITE(OUTFIL5,'(A10,11F9.2)')
      :        TNAME,OWF
-     :        ,OWE,OIIF,OIIE,OIIIF,OIIIE,HBF,HBE,EWB,HGF,HGAE
+     :        ,OWE,OIIF,OIIE,OIIIF,OIIIE
+     :        ,HBF,HBE,EWB,HGF,HGAE
 
 
          READ(INFILE,'(A)',IOSTAT=IOERR) CHLINE
@@ -371,7 +372,7 @@ C Hbeta = 4861.3 + 4861.3
       SUBROUTINE TWOFIT(TNAME,NUM,WAV,DAT,SIG,BINSIZ
      :     ,LNAME,SFACTOR,INT1,INT1E,FW1,CEN1,INT2,FW2,CEN2
      :     ,NPAR,CHI2,BIC,CORR2,ADCORR2
-     :     ,MODEL,MODEL1,MODEL2)
+     :     ,MODEL,MODEL1,MODEL2,EW1)
 *-
 * after GENFIT by P.Francis, modified by Eileen
 *
@@ -413,7 +414,7 @@ c      PARAMETER (COLMAX=800, RMAX=600, SCREEN=6, ITMAX=6500,
       REAL PMIN(MP), MODEL1(MAXSIZ), MODEL2(MAXSIZ)
       REAL ALFA,WAVE,FLUX,PI,SCALE,RANGE,CENTRE
       REAL FW1,CEN1,FW2,CEN2,INT1,INT1E,INT2,FLUX0,CHI2,BIC
-      REAL YMEAN,YRMS,SUMXY,XYMEAN,CORR2,ADCORR2
+      REAL YMEAN,YRMS,SUMXY,XYMEAN,CORR2,ADCORR2,EW1
       REAL CMIN,EMIN,ETEST,ELOWER,EUPPER,EPLUS,EMINUS,ECHANGE
       INTEGER ISTART,IEND,IX1,IX2,NX,OUNIT,OFLAG
 
@@ -1360,4 +1361,5 @@ C      IF(F*FMID.GE.0.) PAUSE 'Root must be bracketed for bisection.'
 c      PAUSE 'too many bisections'
       PRINT *,'too many bisections'
       END
+
 
