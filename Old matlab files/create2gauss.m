@@ -32,6 +32,8 @@ average2 = mean(y(find(x == 4885)):(find(x==4925)),1))
 contlevel = (average1+average2)/2
 
 
+a = textscan(test,' %f %f',1, 'delimiter', '\n','headerlines', linemum-1)
+
 %create outfile
 filename = ['milesm' num2str(nocol) 'full.BN'];
 
