@@ -1,4 +1,4 @@
-function [] = create2gauss(nocol,normfull,norm4363, normhb)
+function [] = create2gauss(nocol)
 %   function takes filename and then creates spectra file
 %   
 %   input; filename of the starlight output file
@@ -32,7 +32,22 @@ average2 = mean(y(find(x == 4885)):(find(x==4925)),1))
 contlevel = (average1+average2)/2
 
 
-a = textscan(test,' %f %f',1, 'delimiter', '\n','headerlines', linemum-1)
+linenum = 15
+
+filename = ['milesm' num2str(nocol) 'full.BN'];
+norma = textscan(filename,' %f %s',1, 'delimiter', '\n','headerlines', linenum-1)
+normfull = norma(1)
+
+filename = ['milesm' num2str(nocol) '4363.BN'];
+norma = textscan(filename,' %f %s',1, 'delimiter', '\n','headerlines', linenum-1)
+norm4363 = norma(1)
+
+filename = ['milesm' num2str(nocol) 'hbo2.BN'];
+norma = textscan(filename,' %f %s',1, 'delimiter', '\n','headerlines', linenum-1)
+normhb = norma(1)
+
+fclose('all')
+
 
 %create outfile
 filename = ['milesm' num2str(nocol) 'full.BN'];
