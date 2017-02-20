@@ -12,7 +12,7 @@ import matplotlib, matplotlib.pyplot as plt
 import linecache
 
 import sys
-ncol =  sys.argv[0]
+ncol =  sys.argv[1]
 
 #Get errors from base spectra
 basefile = 'wig02bin' + str(ncol) + '.txt'
@@ -33,7 +33,7 @@ er3727 = z[1][(np.where(z[0] == 3500)[0][0]):(np.where(z[0] == 4000)[0][0])+1]
 
 hbfile = 'wig02hb' + str(ncol) + '.BN'
 
-hbdata = np.genfromtxt(hbfile, skipheader = 978)
+hbdata = np.genfromtxt(hbfile, skip_header = 978)
 hbdata = [hbdata[:,0] , hbdata[:,1], hbdata[:,2]]
 
 average1 = np.mean(hbdata[1][(np.where(hbdata[0] == 4800)[0][0]):(np.where(hbdata[0] == 4835)[0][0])+1])
@@ -54,14 +54,14 @@ outfile = 'wig02fitted' + str(ncol) + '.txt'
 
 o2file = 'wig02fit' + str(ncol) + '.BN'
 
-o2data = np.genfromtxt(o2file, skipheader = 978)
+o2data = np.genfromtxt(o2file, skip_header = 978)
 o2data = [o2data[:,0] , o2data[:,1], o2data[:,2]]
 
 o2data = np.transpose(np.array((o2data[0],(o2data[1]-o2data[2])*normfull + contlevel, er3727)))
 
 o3file = str(ncol) + '4363.BN'
 
-o3data = np.genfromtxt(o3file, skipheader = 978)
+o3data = np.genfromtxt(o3file, skip_header = 978)
 o3data = [o3data[:,0] , o3data[:,1], o3data[:,2]]
 
 o3data = np.transpose(np.array((o3data[0],(o3data[1]-o3data[2])*norm4363 + contlevel, er4363)))
