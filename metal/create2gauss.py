@@ -44,9 +44,13 @@ contlevel = (average1+average2)/2;
 #Get norm constants
 linenum = 15;
 
-normfull = float((linecache.getline('wig02fit' + str(ncol) + '.BN', linenum-1)).split()[0])
-normhb = float((linecache.getline('wig02hb' + str(ncol) + '.BN', linenum-1)).split()[0])
-norm4363 = float((linecache.getline( str(ncol) + '4363.BN', linenum-1)).split()[0])
+
+s = linecache.getline('wig02fit' + str(ncol) + '.BN', linenum-1)
+normfull = float(s.split()[0])
+s = linecache.getline('wig02hb' + str(ncol) + '.BN', linenum-1)
+normhb = float(s.split()[0])
+s = linecache.getline( str(ncol) + '4363.BN', linenum-1)
+norm4363 = float(s.split()[0])
 
 
 #read files, get fitted spectra, adjust with norm and cont level then write to file
