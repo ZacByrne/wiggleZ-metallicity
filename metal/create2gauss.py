@@ -31,9 +31,9 @@ er3727 = z[1][(np.where(z[0] == 3500)[0][0]):(np.where(z[0] == 4000)[0][0])+1]
 
 #Get cont level for eqw for SFR 
 
-hbfile = 'wig02hb' + str(ncol) + '.BN'
+#hbfile = 'wig02hb' + str(ncol) + '.BN'
 
-hbdata = np.genfromtxt(hbfile, skip_header = 978)
+hbdata = np.genfromtxt(basefile)
 hbdata = [hbdata[:,0] , hbdata[:,1], hbdata[:,2]]
 
 average1 = np.mean(hbdata[1][(np.where(hbdata[0] == 4800)[0][0]):(np.where(hbdata[0] == 4835)[0][0])+1])
@@ -42,7 +42,8 @@ average2 = np.mean(hbdata[1][(np.where(hbdata[0] == 4885)[0][0]):(np.where(hbdat
 contlevel = (average1+average2)/2;
 
 #Get norm constants
-linenum = 15;
+linenum = 16;
+
 
 
 s = linecache.getline('wig02fit' + str(ncol) + '.BN', linenum-1)
@@ -70,9 +71,10 @@ o3data = [o3data[:,0] , o3data[:,1], o3data[:,2]]
 
 o3data = np.transpose(np.array((o3data[0],(o3data[1]-o3data[2])*norm4363 + contlevel, er4363)))
 
+hbfile = 'wig02hb' + str(ncol) + '.BN'
+
+hbdata = np.genfromtxt(hbfile, skip_header = 978)
+hbdata = [hbdata[:,0] , hbdata[:,1], hbdata[:,2]]
 hbdata = np.transpose(np.array((hbdata[0],(hbdata[1]-hbdata[2])*normhb + contlevel, erhb)))
 
 data = np.append(o2data,o3data, axis=0)
-data = np.append(data, hbdata, axis=0)
-
-np.savetxt(outfile,data)
