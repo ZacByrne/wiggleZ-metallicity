@@ -8,6 +8,9 @@ redbin = $2
 sh ./wig02make.txt $massbin $redbin
 
 # Run Starlgiht
+./home/uqzbyrne/Documents/STARLIGHTv04/StarlightChains_v04.exe < wig024363.in > wig02o3w.out
+./home/uqzbyrne/Documents/STARLIGHTv04/StarlightChains_v04.exe < wig02o2.in > wig02o2.out
+./home/uqzbyrne/Documents/STARLIGHTv04/StarlightChains_v04.exe < wig02hb.in > wig02hb.out
 
 
 # turn starlight files into one fitted spectrum
