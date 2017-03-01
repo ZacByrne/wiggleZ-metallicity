@@ -1,0 +1,53 @@
+#
+# Make stacked WiggleZ spectra
+#
+# v2 2017-Jan-16: now allows binning in two parameter (mass and redshift)
+
+# set parameters
+# -bins  NOTE: set loop ranges below (one less than length of array starting at zero)
+# have tried: 4 redshift bins, 3 redshift bins, shift mass bin to cover more area
+# 3/2 trying two redshift bins. 7/2 reverting back to 3,3 bins to try fitting only emissions lines not full
+arrayZ=(0.3 0.53 0.76 1)
+arrayM=(8 8.8 10 12)
+# -name for this run
+k='02'
+
+# note correct columns
+# $4=z $6=Q $24=Mfuv $25=mass $29=Mg $30=specfile
+
+#save (temporary) parent sample; remove old output files
+grep -v "#" /misc/astro2/share01/wigglez/wigglez99.dat | grep WIG | grep -v "frin" | awk '$6>2 {print $4, $25, $29, $30}' >totobin.dat
+\rm wig${k}bin*
+
+# select spectrum names
+for i in {0..2}
+do
+#echo $i ${arrayZ[$i]}   ${arrayZ[($i+1)]} 
+for j in {0..2}
+do
+awk '$1>'${arrayZ[$i]}' && $1<='${arrayZ[($i+1)]}' && $2>'${arrayM[$j]}' && $2<='${arrayM[($j+1)]}'   {print}' totobin.dat > wig${k}bin$i$j.dat
+echo wig${k}bin$i$j.dat    ${arrayZ[$i]}   ${arrayZ[($i+1)]}   ${arrayM[$j]} ${arrayM[($j+1)]}  
+done
+done
+
+# create average spectra
+for i in {0..2}
+do
+for j in {0..2}
+do
+/misc/astro2/share01/bin/wav_calc3 << END
+55
+wig${k}bin$i$j
+2
+wig${k}bin$i$j.dat
+END
+done
+done
+
+# write control file for IRAF spectrum plotting
+ls wig${k}bin*fits | grep -v "[N,S]" > toto
+# write control file for TWOGAUSS fitting
+ls wig${k}bin*fits | grep -v "[N,S]" | sed -e's/fits/txt/' > wig${k}bin_list.txt
+
+wc wig${k}bin*dat
+wc totobin.dat
