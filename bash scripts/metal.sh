@@ -5,7 +5,7 @@
 massbin = $1
 redbin = $2
 
-sh ./wig02make.txt $massbin $redbin
+sh ./spectra/wig02make.txt $massbin $redbin
 
 # Run Starlgiht
 ./home/uqzbyrne/Documents/STARLIGHTv04/StarlightChains_v04.exe < wig024363.in > wig02o3w.out
