@@ -55,7 +55,7 @@ norm4363 = float(s.split()[0])
 
 
 #read files, get fitted spectra, adjust with norm and cont level then write to file
-outfile = 'wig02fitted' + str(ncol) + '.txt'
+outfile = '/home/uqzbyrne/2-3m/fits/wig02fitted' + str(ncol) + '.txt'
 
 o2file = 'wig02fit' + str(ncol) + '.BN'
 
