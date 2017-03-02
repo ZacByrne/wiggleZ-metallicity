@@ -78,3 +78,6 @@ hbdata = [hbdata[:,0] , hbdata[:,1], hbdata[:,2]]
 hbdata = np.transpose(np.array((hbdata[0],(hbdata[1]-hbdata[2])*normhb + contlevel, erhb)))
 
 data = np.append(o2data,o3data, axis=0)
+data = np.append(data, hbdata, axis=0)
+
+np.savetxt(outfile,data, '%5.5f')
