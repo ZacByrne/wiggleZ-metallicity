@@ -5,18 +5,20 @@
 massbin = $1
 redbin = $2
 
-sh ./spectra/wig02make.txt $massbin $redbin
+#If I need to make spectra, PLEASE UPDATE MAKE FILE FOR NEW BINS
+sh ./spectra/wig02make.txt 
 
-# Run Starlgiht
+
+# Run Starlgiht. PLEASE UPDATE FOR BINS?
 ./home/uqzbyrne/Documents/STARLIGHTv04/StarlightChains_v04.exe < wig024363.in > wig02o3w.out
 ./home/uqzbyrne/Documents/STARLIGHTv04/StarlightChains_v04.exe < wig02o2.in > wig02o2.out
 ./home/uqzbyrne/Documents/STARLIGHTv04/StarlightChains_v04.exe < wig02hb.in > wig02hb.out
 
 
 # turn starlight files into one fitted spectrum
-for i in {0..massbin}
+for i in $(seq 0 $massbin)
 do
-for j in {0..redbin}
+for j in $(seq 0 $redbin)
 do
 python create2gauss.py $i$j
 done
@@ -25,7 +27,7 @@ done
 ls wig02fitted*.txt > list.txt
 
 #run twogauss
-./twogauss < tginput
+./twogauss/twogauss < tginput
 
 #run python
 python metal.py
